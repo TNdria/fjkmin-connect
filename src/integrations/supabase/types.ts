@@ -14,7 +14,152 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      adherents: {
+        Row: {
+          adresse: string | null
+          created_at: string | null
+          date_inscription: string | null
+          date_naissance: string | null
+          email: string | null
+          fonction_eglise: string | null
+          id: string
+          nom: string
+          prenom: string
+          quartier: string | null
+          sexe: string
+          telephone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          adresse?: string | null
+          created_at?: string | null
+          date_inscription?: string | null
+          date_naissance?: string | null
+          email?: string | null
+          fonction_eglise?: string | null
+          id?: string
+          nom: string
+          prenom: string
+          quartier?: string | null
+          sexe: string
+          telephone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          adresse?: string | null
+          created_at?: string | null
+          date_inscription?: string | null
+          date_naissance?: string | null
+          email?: string | null
+          fonction_eglise?: string | null
+          id?: string
+          nom?: string
+          prenom?: string
+          quartier?: string | null
+          sexe?: string
+          telephone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      adherents_groupes: {
+        Row: {
+          adherent_id: string
+          created_at: string | null
+          date_adhesion: string | null
+          groupe_id: string
+          id: string
+        }
+        Insert: {
+          adherent_id: string
+          created_at?: string | null
+          date_adhesion?: string | null
+          groupe_id: string
+          id?: string
+        }
+        Update: {
+          adherent_id?: string
+          created_at?: string | null
+          date_adhesion?: string | null
+          groupe_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "adherents_groupes_adherent_id_fkey"
+            columns: ["adherent_id"]
+            isOneToOne: false
+            referencedRelation: "adherents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "adherents_groupes_groupe_id_fkey"
+            columns: ["groupe_id"]
+            isOneToOne: false
+            referencedRelation: "groupes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      groupes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          nom_groupe: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          nom_groupe: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          nom_groupe?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          adherent_id: string | null
+          created_at: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+          username: string
+        }
+        Insert: {
+          adherent_id?: string | null
+          created_at?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
+          username: string
+        }
+        Update: {
+          adherent_id?: string | null
+          created_at?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_adherent_id_fkey"
+            columns: ["adherent_id"]
+            isOneToOne: false
+            referencedRelation: "adherents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
