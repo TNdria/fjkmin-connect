@@ -7,13 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Church, Mail, Lock, User, AlertCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Church, Mail, Lock, User, AlertCircle, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("UTILISATEUR");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -26,13 +28,14 @@ export default function Auth() {
 
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { error: signUpError, data } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl,
         data: {
-          username: username || email
+          username: username || email,
+          role: role
         }
       }
     });
@@ -44,6 +47,18 @@ export default function Auth() {
         setError(signUpError.message);
       }
     } else {
+      // Update the user profile with the selected role
+      if (data?.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({ role })
+          .eq('id', data.user.id);
+          
+        if (profileError) {
+          console.error('Error updating profile role:', profileError);
+        }
+      }
+      
       toast({
         title: "Inscription réussie!",
         description: "Vérifiez votre email pour confirmer votre compte.",
@@ -52,6 +67,7 @@ export default function Auth() {
       setEmail("");
       setPassword("");
       setUsername("");
+      setRole("UTILISATEUR");
     }
     
     setLoading(false);
@@ -190,6 +206,26 @@ export default function Auth() {
                         required
                         className="pl-10"
                       />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-role">Rôle</Label>
+                    <div className="relative">
+                      <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
+                      <Select
+                        value={role}
+                        onValueChange={setRole}
+                      >
+                        <SelectTrigger className="pl-10">
+                          <SelectValue placeholder="Sélectionner un rôle" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="UTILISATEUR">Utilisateur simple</SelectItem>
+                          <SelectItem value="RESPONSABLE">Responsable</SelectItem>
+                          <SelectItem value="ADMIN">Administrateur</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   
