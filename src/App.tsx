@@ -6,9 +6,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./lib/auth-context";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
+import { DashboardRouter } from "./components/DashboardRouter";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
 import Adherents from "./pages/Adherents";
 import AdherentForm from "./pages/AdherentForm";
 import Groupes from "./pages/Groupes";
@@ -31,7 +31,7 @@ const App = () => (
             
             {/* Protected routes */}
             <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<DashboardRouter />} />
               <Route path="/adherents" element={<Adherents />} />
               <Route path="/adherents/new" element={<AdherentForm />} />
               <Route path="/adherents/:id/edit" element={<AdherentForm />} />
