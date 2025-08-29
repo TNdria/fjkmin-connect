@@ -128,25 +128,52 @@ export type Database = {
       profiles: {
         Row: {
           adherent_id: string | null
+          adresse: string | null
           created_at: string | null
+          date_naissance: string | null
+          email: string | null
+          fonction_eglise: string | null
           id: string
+          nom: string | null
+          prenom: string | null
+          quartier: string | null
           role: string | null
+          sexe: string | null
+          telephone: string | null
           updated_at: string | null
           username: string
         }
         Insert: {
           adherent_id?: string | null
+          adresse?: string | null
           created_at?: string | null
+          date_naissance?: string | null
+          email?: string | null
+          fonction_eglise?: string | null
           id: string
+          nom?: string | null
+          prenom?: string | null
+          quartier?: string | null
           role?: string | null
+          sexe?: string | null
+          telephone?: string | null
           updated_at?: string | null
           username: string
         }
         Update: {
           adherent_id?: string | null
+          adresse?: string | null
           created_at?: string | null
+          date_naissance?: string | null
+          email?: string | null
+          fonction_eglise?: string | null
           id?: string
+          nom?: string | null
+          prenom?: string | null
+          quartier?: string | null
           role?: string | null
+          sexe?: string | null
+          telephone?: string | null
           updated_at?: string | null
           username?: string
         }
