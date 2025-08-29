@@ -4,8 +4,10 @@ import { Users, Calendar, Info, BookOpen, Bell, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/lib/auth-context";
 
 export default function DashboardUtilisateur() {
+  const { profile } = useAuth();
   const [stats, setStats] = useState({
     totalAdherents: 0,
     totalGroupes: 0
@@ -76,7 +78,9 @@ export default function DashboardUtilisateur() {
     <div className="p-6 space-y-6 bg-gradient-to-b from-background via-muted/5 to-background">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Bienvenue dans votre espace</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Bienvenue {profile?.prenom ? `${profile.prenom}` : 'dans votre espace'}
+          </h1>
           <p className="text-muted-foreground mt-1">Consultez les informations de la paroisse</p>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">

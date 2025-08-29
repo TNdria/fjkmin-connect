@@ -34,6 +34,15 @@ export interface Profile {
   id: string;
   username: string;
   role: 'ADMIN' | 'RESPONSABLE' | 'UTILISATEUR';
+  nom?: string | null;
+  prenom?: string | null;
+  sexe?: 'M' | 'F' | null;
+  date_naissance?: string | null;
+  adresse?: string | null;
+  quartier?: string | null;
+  telephone?: string | null;
+  email?: string | null;
+  fonction_eglise?: string | null;
   adherent_id: string | null;
   created_at: string;
   updated_at: string;
