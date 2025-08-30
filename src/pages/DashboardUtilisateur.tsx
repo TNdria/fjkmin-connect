@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/auth-context";
 
 export default function DashboardUtilisateur() {
-  const { profile } = useAuth();
+  const { adherent } = useAuth();
   const [stats, setStats] = useState({
     totalAdherents: 0,
     totalGroupes: 0
@@ -79,7 +79,7 @@ export default function DashboardUtilisateur() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Bienvenue {profile?.prenom ? `${profile.prenom}` : 'dans votre espace'}
+            Bienvenue {adherent?.prenom ? `${adherent.prenom}` : 'dans votre espace'}
           </h1>
           <p className="text-muted-foreground mt-1">Consultez les informations de la paroisse</p>
         </div>

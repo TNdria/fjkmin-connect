@@ -14,7 +14,7 @@ export default function Adherents() {
   const [adherents, setAdherents] = useState<Adherent[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const { profile } = useAuth();
+  const { utilisateur } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Adherents() {
       const { error } = await supabase
         .from('adherents')
         .delete()
-        .eq('id', id);
+        .eq('id_adherent', id);
 
       if (error) throw error;
       
@@ -69,7 +69,7 @@ export default function Adherents() {
     adherent.quartier?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const canEdit = profile?.role === 'ADMIN' || profile?.role === 'RESPONSABLE';
+  const canEdit = utilisateur?.role === 'ADMIN' || utilisateur?.role === 'RESPONSABLE';
 
   return (
     <div className="p-6 space-y-6">
@@ -113,7 +113,7 @@ export default function Adherents() {
             </TableHeader>
             <TableBody>
               {filteredAdherents.map((adherent) => (
-                <TableRow key={adherent.id}>
+                <TableRow key={adherent.id_adherent}>
                   <TableCell className="font-medium">{adherent.nom}</TableCell>
                   <TableCell>{adherent.prenom}</TableCell>
                   <TableCell>{adherent.sexe}</TableCell>
@@ -124,14 +124,14 @@ export default function Adherents() {
                     <TableCell>
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" asChild>
-                          <Link to={`/adherents/${adherent.id}/edit`}>
+                          <Link to={`/adherents/${adherent.id_adherent}/edit`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => handleDelete(adherent.id)}
+                          onClick={() => handleDelete(adherent.id_adherent)}
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>

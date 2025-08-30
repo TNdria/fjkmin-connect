@@ -120,14 +120,14 @@ const adminOnlyItems = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const { profile, signOut } = useAuth();
+  const { utilisateur, signOut } = useAuth();
 
   const filteredMenuItems = menuItems.filter(item => 
-    profile && item.roles.includes(profile.role)
+    utilisateur && item.roles.includes(utilisateur.role)
   );
 
   const filteredAdminItems = adminOnlyItems.filter(item => 
-    profile && item.roles.includes(profile.role)
+    utilisateur && item.roles.includes(utilisateur.role)
   );
 
   const getRoleLabel = (role: string) => {
@@ -266,16 +266,16 @@ export function AppSidebar() {
           <div className="flex items-center gap-3 mb-3 p-3 rounded-lg bg-sidebar-accent/50 backdrop-blur">
             <Avatar className="h-10 w-10 ring-2 ring-primary/20 shadow-glow">
               <AvatarFallback className="bg-gradient-primary text-primary-foreground font-bold">
-                {profile?.username?.[0]?.toUpperCase()}
+                {utilisateur?.username?.[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-sidebar-foreground truncate">
-                {profile?.username}
+                {utilisateur?.username}
               </p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge className={`text-xs px-2 py-0 ${profile && getRoleBadgeColor(profile.role)}`}>
-                  {profile && getRoleLabel(profile.role)}
+                <Badge className={`text-xs px-2 py-0 ${utilisateur && getRoleBadgeColor(utilisateur.role)}`}>
+                  {utilisateur && getRoleLabel(utilisateur.role)}
                 </Badge>
               </div>
             </div>

@@ -22,7 +22,7 @@ export type Database = {
           date_naissance: string | null
           email: string | null
           fonction_eglise: string | null
-          id: string
+          id_adherent: string
           nom: string
           prenom: string
           quartier: string | null
@@ -37,7 +37,7 @@ export type Database = {
           date_naissance?: string | null
           email?: string | null
           fonction_eglise?: string | null
-          id?: string
+          id_adherent?: string
           nom: string
           prenom: string
           quartier?: string | null
@@ -52,7 +52,7 @@ export type Database = {
           date_naissance?: string | null
           email?: string | null
           fonction_eglise?: string | null
-          id?: string
+          id_adherent?: string
           nom?: string
           prenom?: string
           quartier?: string | null
@@ -64,40 +64,37 @@ export type Database = {
       }
       adherents_groupes: {
         Row: {
-          adherent_id: string
           created_at: string | null
           date_adhesion: string | null
-          groupe_id: string
-          id: string
+          id_adherent: string
+          id_groupe: string
         }
         Insert: {
-          adherent_id: string
           created_at?: string | null
           date_adhesion?: string | null
-          groupe_id: string
-          id?: string
+          id_adherent: string
+          id_groupe: string
         }
         Update: {
-          adherent_id?: string
           created_at?: string | null
           date_adhesion?: string | null
-          groupe_id?: string
-          id?: string
+          id_adherent?: string
+          id_groupe?: string
         }
         Relationships: [
           {
-            foreignKeyName: "adherents_groupes_adherent_id_fkey"
-            columns: ["adherent_id"]
+            foreignKeyName: "adherents_groupes_id_adherent_fkey"
+            columns: ["id_adherent"]
             isOneToOne: false
             referencedRelation: "adherents"
-            referencedColumns: ["id"]
+            referencedColumns: ["id_adherent"]
           },
           {
-            foreignKeyName: "adherents_groupes_groupe_id_fkey"
-            columns: ["groupe_id"]
+            foreignKeyName: "adherents_groupes_id_groupe_fkey"
+            columns: ["id_groupe"]
             isOneToOne: false
             referencedRelation: "groupes"
-            referencedColumns: ["id"]
+            referencedColumns: ["id_groupe"]
           },
         ]
       }
@@ -105,85 +102,61 @@ export type Database = {
         Row: {
           created_at: string | null
           description: string | null
-          id: string
+          id_groupe: string
           nom_groupe: string
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
           description?: string | null
-          id?: string
+          id_groupe?: string
           nom_groupe: string
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
           description?: string | null
-          id?: string
+          id_groupe?: string
           nom_groupe?: string
           updated_at?: string | null
         }
         Relationships: []
       }
-      profiles: {
+      utilisateurs: {
         Row: {
-          adherent_id: string | null
-          adresse: string | null
+          auth_id: string | null
           created_at: string | null
-          date_naissance: string | null
-          email: string | null
-          fonction_eglise: string | null
-          id: string
-          nom: string | null
-          prenom: string | null
-          quartier: string | null
+          id_adherent: string | null
+          id_utilisateur: string
           role: string | null
-          sexe: string | null
-          telephone: string | null
           updated_at: string | null
           username: string
         }
         Insert: {
-          adherent_id?: string | null
-          adresse?: string | null
+          auth_id?: string | null
           created_at?: string | null
-          date_naissance?: string | null
-          email?: string | null
-          fonction_eglise?: string | null
-          id: string
-          nom?: string | null
-          prenom?: string | null
-          quartier?: string | null
+          id_adherent?: string | null
+          id_utilisateur?: string
           role?: string | null
-          sexe?: string | null
-          telephone?: string | null
           updated_at?: string | null
           username: string
         }
         Update: {
-          adherent_id?: string | null
-          adresse?: string | null
+          auth_id?: string | null
           created_at?: string | null
-          date_naissance?: string | null
-          email?: string | null
-          fonction_eglise?: string | null
-          id?: string
-          nom?: string | null
-          prenom?: string | null
-          quartier?: string | null
+          id_adherent?: string | null
+          id_utilisateur?: string
           role?: string | null
-          sexe?: string | null
-          telephone?: string | null
           updated_at?: string | null
           username?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_adherent_id_fkey"
-            columns: ["adherent_id"]
+            foreignKeyName: "utilisateurs_id_adherent_fkey"
+            columns: ["id_adherent"]
             isOneToOne: false
             referencedRelation: "adherents"
-            referencedColumns: ["id"]
+            referencedColumns: ["id_adherent"]
           },
         ]
       }

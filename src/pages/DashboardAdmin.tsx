@@ -31,17 +31,17 @@ export default function DashboardAdmin() {
   const fetchUserStats = async () => {
     try {
       const { count: totalAdmins } = await supabase
-        .from('profiles')
+        .from('utilisateurs')
         .select('*', { count: 'exact', head: true })
         .eq('role', 'ADMIN');
 
       const { count: totalResponsables } = await supabase
-        .from('profiles')
+        .from('utilisateurs')
         .select('*', { count: 'exact', head: true })
         .eq('role', 'RESPONSABLE');
 
       const { count: totalUtilisateurs } = await supabase
-        .from('profiles')
+        .from('utilisateurs')
         .select('*', { count: 'exact', head: true })
         .eq('role', 'UTILISATEUR');
 

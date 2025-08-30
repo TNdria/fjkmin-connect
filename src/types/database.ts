@@ -1,5 +1,5 @@
 export interface Adherent {
-  id: string;
+  id_adherent: string;
   nom: string;
   prenom: string;
   sexe: 'M' | 'F';
@@ -15,7 +15,7 @@ export interface Adherent {
 }
 
 export interface Groupe {
-  id: string;
+  id_groupe: string;
   nom_groupe: string;
   description: string | null;
   created_at: string;
@@ -23,27 +23,18 @@ export interface Groupe {
 }
 
 export interface AdherentGroupe {
-  id: string;
-  adherent_id: string;
-  groupe_id: string;
+  id_adherent: string;
+  id_groupe: string;
   date_adhesion: string;
   created_at: string;
 }
 
-export interface Profile {
-  id: string;
+export interface Utilisateur {
+  id_utilisateur: string;
+  auth_id: string | null;
   username: string;
   role: 'ADMIN' | 'RESPONSABLE' | 'UTILISATEUR';
-  nom?: string | null;
-  prenom?: string | null;
-  sexe?: 'M' | 'F' | null;
-  date_naissance?: string | null;
-  adresse?: string | null;
-  quartier?: string | null;
-  telephone?: string | null;
-  email?: string | null;
-  fonction_eglise?: string | null;
-  adherent_id: string | null;
+  id_adherent: string | null;
   created_at: string;
   updated_at: string;
 }

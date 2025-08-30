@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { Profile } from '@/types/database';
+import { Utilisateur, Adherent } from '@/types/database';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  profile: Profile | null;
+  utilisateur: Utilisateur | null;
+  adherent: Adherent | null;
   loading: boolean;
   signOut: () => Promise<void>;
 }
@@ -14,7 +15,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
-  profile: null,
+  utilisateur: null,
+  adherent: null,
   loading: true,
   signOut: async () => {},
 });
@@ -30,22 +32,37 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [utilisateur, setUtilisateur] = useState<Utilisateur | null>(null);
+  const [adherent, setAdherent] = useState<Adherent | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchUserData = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
+      // Récupérer l'utilisateur
+      const { data: userData, error: userError } = await supabase
+        .from('utilisateurs')
         .select('*')
-        .eq('id', userId)
+        .eq('auth_id', userId)
         .single();
 
-      if (!error && data) {
-        setProfile(data as Profile);
+      if (!userError && userData) {
+        setUtilisateur(userData as Utilisateur);
+        
+        // Si l'utilisateur a un adherent associé, le récupérer
+        if (userData.id_adherent) {
+          const { data: adherentData, error: adherentError } = await supabase
+            .from('adherents')
+            .select('*')
+            .eq('id_adherent', userData.id_adherent)
+            .single();
+            
+          if (!adherentError && adherentData) {
+            setAdherent(adherentData as Adherent);
+          }
+        }
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      console.error('Error fetching user data:', error);
     }
   };
 
@@ -55,13 +72,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       
-      // Defer profile fetching
+      // Defer user data fetching
       if (session?.user) {
         setTimeout(() => {
-          fetchProfile(session.user.id);
+          fetchUserData(session.user.id);
         }, 0);
       } else {
-        setProfile(null);
+        setUtilisateur(null);
+        setAdherent(null);
       }
       
       setLoading(false);
@@ -73,7 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        fetchProfile(session.user.id);
+        fetchUserData(session.user.id);
       }
       
       setLoading(false);
@@ -86,11 +104,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
-    setProfile(null);
+    setUtilisateur(null);
+    setAdherent(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, profile, loading, signOut }}>
+    <AuthContext.Provider value={{ user, session, utilisateur, adherent, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );

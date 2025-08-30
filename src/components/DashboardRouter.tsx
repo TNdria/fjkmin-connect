@@ -4,9 +4,9 @@ import DashboardResponsable from "@/pages/DashboardResponsable";
 import DashboardUtilisateur from "@/pages/DashboardUtilisateur";
 
 export function DashboardRouter() {
-  const { profile } = useAuth();
+  const { utilisateur } = useAuth();
 
-  if (!profile) {
+  if (!utilisateur) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -16,7 +16,7 @@ export function DashboardRouter() {
     );
   }
 
-  switch (profile.role) {
+  switch (utilisateur.role) {
     case 'ADMIN':
       return <DashboardAdmin />;
     case 'RESPONSABLE':

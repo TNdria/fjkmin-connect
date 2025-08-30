@@ -14,7 +14,7 @@ export default function Groupes() {
   const [groupes, setGroupes] = useState<Groupe[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const { profile } = useAuth();
+  const { utilisateur } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Groupes() {
       const { error } = await supabase
         .from('groupes')
         .delete()
-        .eq('id', id);
+        .eq('id_groupe', id);
 
       if (error) throw error;
       
@@ -68,7 +68,7 @@ export default function Groupes() {
     groupe.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const canEdit = profile?.role === 'ADMIN';
+  const canEdit = utilisateur?.role === 'ADMIN';
 
   return (
     <div className="p-6 space-y-6">
@@ -108,7 +108,7 @@ export default function Groupes() {
             </TableHeader>
             <TableBody>
               {filteredGroupes.map((groupe) => (
-                <TableRow key={groupe.id}>
+                <TableRow key={groupe.id_groupe}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4 text-muted-foreground" />
@@ -120,14 +120,14 @@ export default function Groupes() {
                     <TableCell>
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" asChild>
-                          <Link to={`/groupes/${groupe.id}/edit`}>
+                          <Link to={`/groupes/${groupe.id_groupe}/edit`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="icon"
-                          onClick={() => handleDelete(groupe.id)}
+                          onClick={() => handleDelete(groupe.id_groupe)}
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
