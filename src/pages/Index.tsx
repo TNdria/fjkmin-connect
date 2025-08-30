@@ -217,9 +217,21 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="py-8 px-4 border-t">
-        <div className="container mx-auto text-center text-muted-foreground">
-          <p className="mb-2">© 2024 FJKM Vatomandry. Tous droits réservés.</p>
-          <p className="text-sm">Fait avec ❤️ pour notre communauté</p>
+        <div className="container mx-auto">
+          <div className="text-center text-muted-foreground mb-6">
+            <p className="mb-2">© 2024 FJKM Vatomandry. Tous droits réservés.</p>
+            <p className="text-sm">Fait avec ❤️ pour notre communauté</p>
+          </div>
+          <div className="text-center text-sm text-muted-foreground/60 border-t pt-4 mt-4">
+            <p className="mb-2">Technologies utilisées:</p>
+            <div className="flex justify-center gap-4 text-xs">
+              <span>Frontend: React.js</span>
+              <span>•</span>
+              <span>Backend: Supabase</span>
+              <span>•</span>
+              <span>Base de données: PostgreSQL</span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
